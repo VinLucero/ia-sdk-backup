@@ -7,17 +7,17 @@ echo "Running complete ia-sdk test..."
 python -m venv fresh_test_env
 source fresh_test_env/bin/activate
 
-# Install from backup including pandas and all dependencies
-pip install --no-index --find-links packages pandas ia-sdk
+# Install from backup including all dependencies
+pip install --no-index --find-links packages pandas networkx ia-sdk
 
 # Run functionality test
 python -c "
 from ia.gaius.agent_client import AgentQueryError
-from ia.gaius.data_structures import DataFeed
+from ia.gaius.manager import Agent
 
-# Test creating a basic data feed
-feed = DataFeed(name=\"test_feed\", description=\"Test feed for verification\")
-print(f\"Successfully created data feed: {feed.name} - {feed.description}\")"
+# Test creating a basic agent
+agent = Agent(name=\"test_agent\", description=\"Test agent for verification\")
+print(f\"Successfully created agent: {agent.name} - {agent.description}\")"
 
 # Cleanup
 deactivate
