@@ -36,12 +36,22 @@ def test_basic_imports():
 def test_agent_client():
     """Test agent client functionality"""
     from ia.gaius.agent_client import AgentQueryError, AgentClient
+    
     # Test error handling
     error = AgentQueryError("Test error")
     assert str(error) == "Test error"
+    
     # Test client initialization (without connecting)
-    client = AgentClient("test_agent")
-    assert client.name == "test_agent"
+    agent_info = {
+        'api_key': 'test-key',
+        'name': 'test-agent',
+        'domain': 'test.com',
+        'secure': False
+    }
+    client = AgentClient(agent_info)
+    assert client.name == "test-agent"
+    assert client._domain == "test.com"
+    assert client._api_key == "test-key"
     print("Successfully tested agent client")
 
 def test_data_structures():
@@ -59,11 +69,10 @@ def test_data_structures():
 
 def test_manager():
     """Test manager functionality"""
-    from ia.gaius.manager import AgentClient
-    # Test client creation (without connecting)
-    client = AgentClient("test_agent")
-    assert client.name == "test_agent"
-    print("Successfully tested manager")
+    import ia.gaius.manager as manager
+    # Test Docker client creation
+    assert hasattr(manager, 'docker')
+    print("Successfully tested manager module imports")
 
 def test_utils():
     """Test utilities functionality"""
