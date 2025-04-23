@@ -4,3 +4,4 @@ plotly
 deap
 scipy
 scikit-learn
+tqdm
