@@ -24,7 +24,7 @@ pip list
 
 # Test import
 echo "Testing import..."
-python -c "import ia.gaius; print(f\"Successfully installed ia-sdk {ia.gaius.__version__}\")"
+python -c "from ia.gaius.agent_client import AgentQueryError; print(\"Successfully imported ia-sdk\")"
 
 # Cleanup
 deactivate
