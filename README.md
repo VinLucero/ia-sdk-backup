@@ -12,17 +12,25 @@ This repository contains a complete backup of ia-sdk version 0.4.22 and all its 
 ## Package Contents
 
 Main package:
-- ia-sdk v0.4.22
+- ia-sdk v0.4.22 (platform-independent)
 
-Dependencies:
+Dependencies (platform-independent):
 - docker
 - filelock
-- numpy
 - platformdirs
-- pymongo
 - requests
 - retry
 - sty
+- urllib3
+- certifi
+- decorator
+- idna
+- py
+
+Platform-specific dependencies (macOS arm64):
+- numpy (2.2.5, macOS arm64)
+- pymongo (4.12.0, macOS arm64)
+- charset-normalizer (3.4.1, macOS universal2)
 
 ## Installation Instructions
 
@@ -54,20 +62,32 @@ Dependencies:
 
 ### Verification
 
-To verify the package installation:
-```python
-from ia.gaius.agent_client import AgentQueryError
-print("ia-sdk installed successfully")
-```
+1. Verify package checksums:
+   ```bash
+   cd packages
+   sha256sum -c checksums.txt
+   cd ..
+   ```
+
+2. Verify installation:
+   ```python
+   from ia.gaius.agent_client import AgentQueryError
+   print("ia-sdk installed successfully")
+   ```
 
 ## Platform Compatibility
 
 This backup was created on macOS with the following specifications:
 - Architecture: arm64
 - Python version: 3.12
-- Some wheels are platform-specific (e.g., numpy, pymongo)
+- Some wheels are platform-specific (see Package Contents section)
 
-For other platforms, you may need to download platform-specific wheels from PyPI or rebuild from source.
+For other platforms, you'll need to:
+1. Keep the platform-independent wheels
+2. Download platform-specific wheels for your system from PyPI:
+   - numpy
+   - pymongo
+   - charset-normalizer
 
 ## How This Backup Was Created
 
@@ -116,9 +136,9 @@ Wheel files included:
 ## Usage Notes
 
 1. The backup includes both the installable wheel files and reference source code
-2. Checksums are provided for file verification
+2. Checksums are provided in `packages/checksums.txt` for file verification
 3. Test script ensures proper installation
-4. Platform-specific dependencies may need to be replaced for different systems
+4. Platform-specific dependencies must be replaced for non-macOS arm64 systems
 
 ## Legal Notice
 
@@ -131,3 +151,11 @@ To update this backup:
 2. Run the backup script to download new versions
 3. Test the installation
 4. Update documentation as needed
+
+## Troubleshooting
+
+If you encounter platform compatibility issues:
+1. Keep all platform-independent wheels
+2. Download platform-specific wheels for your system
+3. Update checksums.txt accordingly
+4. Run the test installation script to verify
