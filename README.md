@@ -26,6 +26,7 @@ Direct Dependencies:
 - pandas
 - networkx
 - plotly
+- deap
 
 Additional Dependencies:
 - python-dateutil
@@ -54,7 +55,7 @@ Additional Dependencies:
 
 2. Run the test installation script:
    ```bash
-   ./scripts/full_test.sh
+   ./scripts/comprehensive_test.sh
    ```
 
 ### Method 2: Manual Installation
@@ -67,42 +68,52 @@ Additional Dependencies:
 
 2. Install from the backup:
    ```bash
-   pip install --no-index --find-links packages pandas networkx plotly ia-sdk
+   pip install --no-index --find-links packages pandas networkx plotly deap ia-sdk
    ```
 
-### Verification
+## Verification Status
 
-To verify the package installation:
-```python
-from ia.gaius.agent_client import AgentQueryError
-print("Successfully imported ia-sdk")
-```
+Last verified on: April 23, 2025
+Test Results:
+✓ Basic Imports - Core and experimental modules
+✓ Agent Client - Initialization and error handling
+✓ Data Structures - Graph operations
+✓ Manager - Docker integration
+✓ Utils - GDF functionality
+✓ Experimental Features - Machine learning integration
 
 ## Platform Compatibility
 
 This backup was created on macOS with the following specifications:
 - Architecture: arm64
 - Python version: 3.12
-- Some wheels are platform-specific (e.g., numpy, pymongo)
+- Some wheels are platform-specific
 
 Platform-specific packages:
 - numpy (2.2.5, macOS arm64)
 - pymongo (4.12.0, macOS arm64)
 - charset-normalizer (3.4.1, macOS universal2)
+- deap (1.4.2, macOS universal2)
 
 For other platforms, you'll need to:
 1. Keep the platform-independent wheels
 2. Download platform-specific wheels for your system from PyPI
 3. Update checksums.txt accordingly
 
-## Verification Status
+## Usage Example
 
-Last verified on: April 23, 2025
-Test results:
-- ✓ Package installation
-- ✓ Basic imports
-- ✓ Object creation
-- ✓ All dependencies resolved
+```python
+from ia.gaius.agent_client import AgentClient
+
+# Initialize agent client
+agent_info = {
+    'api_key': 'your-api-key',
+    'name': 'your-agent-name',
+    'domain': 'your-domain',
+    'secure': False
+}
+client = AgentClient(agent_info)
+```
 
 ## Legal Notice
 
@@ -113,7 +124,7 @@ This backup contains only publicly available packages from PyPI and is intended 
 To update this backup:
 1. Update version numbers in scripts/backup_packages.sh
 2. Run the backup script to download new versions
-3. Test the installation
+3. Run the comprehensive test suite
 4. Update documentation as needed
 
 ## Troubleshooting
@@ -122,4 +133,4 @@ If you encounter platform compatibility issues:
 1. Keep all platform-independent wheels
 2. Download platform-specific wheels for your system
 3. Update checksums.txt accordingly
-4. Run the test installation script to verify
+4. Run the test suite to verify
