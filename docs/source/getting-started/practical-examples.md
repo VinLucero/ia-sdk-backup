@@ -1,13 +1,11 @@
-# ia-sdk Practical Examples
+# Practical Examples
 
-## Common Usage Patterns
+## Basic Operations Pattern {#basic-operations-pattern}
 
-### Basic Operations Pattern
 ```python
-from ia.gaius.agent_client import AgentClient, AgentConnectionError, AgentQueryError
+from ia.gaius.agent_client import AgentClient, AgentQueryError
 
 class BasicAgent:
-    """Basic agent usage pattern"""
     def __init__(self, api_key, domain):
         self.agent_info = {
             'api_key': api_key,
@@ -15,50 +13,44 @@ class BasicAgent:
             'domain': domain,
             'secure': True
         }
-        self.client = None
-        
+        self.client = AgentClient(self.agent_info)
+        self.initialize()
+    
     def initialize(self):
-        try:
-            self.client = AgentClient(self.agent_info)
-            self.client.connect()
-            self.client.set_ingress_nodes(['P1'])
-            self.client.set_query_nodes(['P1'])
-            return True
-        except AgentConnectionError as e:
-            print(f"Initialization failed: {e}")
-            return False
-
+        self.client.connect()
+        self.client.set_ingress_nodes(['P1'])
+        self.client.set_query_nodes(['P1'])
+    
     def execute_query(self, path):
-        try:
-            return self.client._query(self.client.session.get, path, nodes=['P1'])
-        except AgentQueryError as e:
-            print(f"Query failed: {e}")
-            return None
+        return self.client._query(
+            self.client.session.get,
+            path,
+            nodes=['P1']
+        )
 ```
 
-### Resilient Pattern
+## Resilient Pattern {#resilient-pattern}
+
 ```python
 import time
 from functools import wraps
 
 def retry_on_failure(max_retries=3, delay=1):
-    """Decorator for retry logic"""
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             for attempt in range(max_retries):
                 try:
                     return func(*args, **kwargs)
-                except (AgentConnectionError, AgentQueryError) as e:
+                except Exception as e:
                     if attempt == max_retries - 1:
                         raise
                     time.sleep(delay)
-                    continue
+            return None
         return wrapper
     return decorator
 
 class ResilientAgent:
-    """Agent with retry and recovery logic"""
     def __init__(self, api_key, domain):
         self.agent_info = {
             'api_key': api_key,
@@ -77,13 +69,16 @@ class ResilientAgent:
         self.client.set_query_nodes(['P1'])
     
     @retry_on_failure(max_retries=3)
-    def execute_query(self, path, nodes=None):
-        if not nodes:
-            nodes = ['P1']
-        return self.client._query(self.client.session.get, path, nodes=nodes)
+    def execute_query(self, path):
+        return self.client._query(
+            self.client.session.get,
+            path,
+            nodes=['P1']
+        )
 ```
 
-### State Management Pattern
+## State Management Pattern {#state-management-pattern}
+
 ```python
 from enum import Enum
 from datetime import datetime, timedelta
@@ -92,10 +87,8 @@ class AgentState(Enum):
     INITIALIZED = "initialized"
     CONNECTED = "connected"
     ERROR = "error"
-    DISCONNECTED = "disconnected"
 
 class ManagedAgent:
-    """Agent with state management"""
     def __init__(self, api_key, domain):
         self.agent_info = {
             'api_key': api_key,
@@ -107,47 +100,38 @@ class ManagedAgent:
         self.state = AgentState.INITIALIZED
         self.last_connection = None
         self.reconnect_interval = timedelta(minutes=30)
-        
-    def ensure_connected(self):
-        current_time = datetime.now()
-        needs_reconnect = (
-            self.state != AgentState.CONNECTED or
-            (self.last_connection and 
-             current_time - self.last_connection > self.reconnect_interval)
-        )
-        
-        if needs_reconnect:
-            try:
-                self.client = AgentClient(self.agent_info)
-                self.client.connect()
-                self.client.set_ingress_nodes(['P1'])
-                self.client.set_query_nodes(['P1'])
-                self.state = AgentState.CONNECTED
-                self.last_connection = current_time
-            except Exception as e:
-                self.state = AgentState.ERROR
-                raise
     
-    def execute_query(self, path, nodes=None):
-        self.ensure_connected()
-        return self.client._query(
-            self.client.session.get,
-            path,
-            nodes=nodes or ['P1']
-        )
+    def ensure_connected(self):
+        if (self.state != AgentState.CONNECTED or
+            (self.last_connection and 
+             datetime.now() - self.last_connection > self.reconnect_interval)):
+            self.initialize()
+    
+    def initialize(self):
+        try:
+            self.client = AgentClient(self.agent_info)
+            self.client.connect()
+            self.client.set_ingress_nodes(['P1'])
+            self.client.set_query_nodes(['P1'])
+            self.state = AgentState.CONNECTED
+            self.last_connection = datetime.now()
+        except Exception as e:
+            self.state = AgentState.ERROR
+            raise
 ```
 
-### Batch Operations Pattern
+## Batch Operations Pattern {#batch-operations-pattern}
+
 ```python
+from typing import List, Dict, Any
+
 class BatchAgent:
-    """Agent with batch operation support"""
     def __init__(self, api_key, domain):
         self.agent = ManagedAgent(api_key, domain)
         self.batch_size = 10
-        self.results = []
-        
-    def batch_query(self, paths):
-        """Execute multiple queries in batches"""
+    
+    def batch_query(self, paths: List[str]) -> List[Dict[str, Any]]:
+        """Execute multiple queries in batches."""
         results = []
         for i in range(0, len(paths), self.batch_size):
             batch = paths[i:i + self.batch_size]
@@ -155,105 +139,23 @@ class BatchAgent:
             for path in batch:
                 try:
                     result = self.agent.execute_query(path)
-                    batch_results.append((path, result))
+                    batch_results.append({
+                        'path': path,
+                        'status': 'success',
+                        'data': result
+                    })
                 except Exception as e:
-                    batch_results.append((path, e))
+                    batch_results.append({
+                        'path': path,
+                        'status': 'error',
+                        'error': str(e)
+                    })
             results.extend(batch_results)
         return results
 ```
 
-## Real-World Examples
+## Integration Example {#integration-example}
 
-### Monitoring System
-```python
-class AgentMonitor:
-    """Monitor agent health and operations"""
-    def __init__(self, api_key, domain):
-        self.agent = ResilientAgent(api_key, domain)
-        self.health_checks = {
-            'connection': self._check_connection,
-            'nodes': self._check_nodes,
-            'queries': self._check_queries
-        }
-        
-    def _check_connection(self):
-        try:
-            self.agent.initialize()
-            return True, "Connection healthy"
-        except Exception as e:
-            return False, f"Connection error: {e}"
-    
-    def _check_nodes(self):
-        try:
-            nodes = self.agent.client.genome.primitive_map.keys()
-            return True, f"Found {len(nodes)} nodes"
-        except Exception as e:
-            return False, f"Node check error: {e}"
-    
-    def _check_queries(self):
-        try:
-            result = self.agent.execute_query('/health')
-            return True, "Queries operational"
-        except Exception as e:
-            return False, f"Query check error: {e}"
-    
-    def run_health_check(self):
-        results = {}
-        for check_name, check_func in self.health_checks.items():
-            success, message = check_func()
-            results[check_name] = {
-                'status': 'healthy' if success else 'error',
-                'message': message
-            }
-        return results
-```
-
-### Data Processing Pipeline
-```python
-class DataPipeline:
-    """Example data processing pipeline"""
-    def __init__(self, api_key, domain):
-        self.agent = ManagedAgent(api_key, domain)
-        self.processing_steps = []
-        
-    def add_step(self, path, transformer=None):
-        self.processing_steps.append({
-            'path': path,
-            'transformer': transformer or (lambda x: x)
-        })
-        
-    def process(self, initial_data):
-        current_data = initial_data
-        results = []
-        
-        for step in self.processing_steps:
-            try:
-                # Execute query
-                result = self.agent.execute_query(
-                    step['path'],
-                    data=current_data
-                )
-                
-                # Transform result
-                current_data = step['transformer'](result)
-                
-                results.append({
-                    'step': step['path'],
-                    'status': 'success',
-                    'data': current_data
-                })
-            except Exception as e:
-                results.append({
-                    'step': step['path'],
-                    'status': 'error',
-                    'error': str(e)
-                })
-                break
-                
-        return results
-```
-
-### Integration Example
 ```python
 def main():
     # Configuration
@@ -261,44 +163,105 @@ def main():
     DOMAIN = "your-domain"
     
     # Initialize components
-    monitor = AgentMonitor(API_KEY, DOMAIN)
-    pipeline = DataPipeline(API_KEY, DOMAIN)
+    batch_agent = BatchAgent(API_KEY, DOMAIN)
     
-    # Setup pipeline
-    pipeline.add_step('/preprocess')
-    pipeline.add_step('/analyze', lambda x: x['processed_data'])
-    pipeline.add_step('/summarize')
+    # Prepare queries
+    paths = [
+        '/data/preprocess',
+        '/data/analyze',
+        '/data/summarize'
+    ]
     
-    # Health check
-    health_status = monitor.run_health_check()
-    if all(check['status'] == 'healthy' for check in health_status.values()):
-        # Process data
-        initial_data = {"raw_data": "example"}
-        results = pipeline.process(initial_data)
-        
-        # Handle results
-        for result in results:
-            if result['status'] == 'success':
-                print(f"Step {result['step']} completed")
-            else:
-                print(f"Step {result['step']} failed: {result['error']}")
-    else:
-        print("System unhealthy:", health_status)
+    # Execute batch queries
+    results = batch_agent.batch_query(paths)
+    
+    # Process results
+    for result in results:
+        if result['status'] == 'success':
+            print(f"Path {result['path']}: Success")
+            print(f"Data: {result['data']}")
+        else:
+            print(f"Path {result['path']}: Error")
+            print(f"Error: {result['error']}")
 
 if __name__ == "__main__":
     main()
 ```
 
-## Best Practices Summary
+## Error Handling {#error-handling}
 
-1. Always use error handling and retry logic
-2. Implement proper state management
-3. Use batch operations where appropriate
-4. Monitor system health
-5. Handle data transformations carefully
-6. Implement proper cleanup
-7. Use appropriate logging
-8. Handle failures gracefully
-9. Validate all inputs and outputs
-10. Maintain connection state
+```python
+class ErrorHandler:
+    def __init__(self):
+        self.errors = []
+    
+    def handle_error(self, error, context=None):
+        error_info = {
+            'timestamp': datetime.now(),
+            'error': str(error),
+            'type': type(error).__name__,
+            'context': context
+        }
+        self.errors.append(error_info)
+        return error_info
+
+class SafeAgent:
+    def __init__(self, api_key, domain):
+        self.agent = ResilientAgent(api_key, domain)
+        self.error_handler = ErrorHandler()
+    
+    def safe_execute(self, path, context=None):
+        try:
+            return self.agent.execute_query(path)
+        except Exception as e:
+            error_info = self.error_handler.handle_error(e, context)
+            return {
+                'status': 'error',
+                'error_info': error_info
+            }
+```
+
+## Best Practices
+
+### Error Recovery
+```python
+def safe_operation(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except AgentConnectionError:
+            # Handle connection errors
+            pass
+        except AgentQueryError:
+            # Handle query errors
+            pass
+    return wrapper
+```
+
+### Resource Management
+```python
+class ManagedResource:
+    def __init__(self):
+        self.resources = []
+    
+    def acquire(self, resource):
+        self.resources.append(resource)
+    
+    def release(self):
+        for resource in self.resources:
+            try:
+                resource.close()
+            except:
+                pass
+        self.resources.clear()
+```
+
+### State Validation
+```python
+def validate_state(client):
+    assert client._connected, "Client not connected"
+    assert client.ingress_nodes, "No ingress nodes configured"
+    assert client.query_nodes, "No query nodes configured"
+```
 
