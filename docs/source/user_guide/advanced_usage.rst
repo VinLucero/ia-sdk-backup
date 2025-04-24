@@ -1,5 +1,5 @@
 Advanced Usage
-=============
+==============
 
 .. meta::
    :description: Advanced techniques and patterns for using the ia-sdk
@@ -8,7 +8,7 @@ Advanced Usage
 This page covers advanced usage patterns and techniques for the ia-sdk.
 
 Multi-Agent Systems
------------------
+-------------------
 
 **Creating Agent Networks**
 
@@ -56,7 +56,7 @@ Share knowledge between agents by exporting and importing knowledge bases:
     agent2.load_kbs_from_json(obj=kb_data)
 
 Knowledge Base Operations
-----------------------
+-------------------------
 
 **Advanced KB Management**
 
@@ -94,7 +94,7 @@ Analyze and visualize knowledge bases:
     models_with_symbol = get_models_containing_symbol(agent, "important_concept")
 
 Custom Integration Patterns
-------------------------
+---------------------------
 
 **Asynchronous Processing**
 
@@ -160,7 +160,7 @@ Implement custom processing pipelines:
     results = postprocess_predictions(raw_predictions)
 
 Experimental Features
--------------------
+---------------------
 
 **scikit-learn Integration**
 
@@ -214,7 +214,7 @@ Use genetic algorithms to optimize agent parameters:
     results = optimizer.multiprocessed_evolve(n_proc=4)
 
 Performance Considerations
------------------------
+--------------------------
 
 **Memory Management**
 

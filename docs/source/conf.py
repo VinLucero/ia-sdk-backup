@@ -13,8 +13,28 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.doctest',
     'myst_parser'
 ]
+
+# Doctest configuration
+doctest_global_setup = '''
+import ia.gaius
+from ia.gaius.data_ops import validate_data
+from ia.gaius.utils import create_gdf, add_vector_to_gdf, add_string_to_gdf, add_emotive_to_gdf
+
+# Test data for doctest
+gdf1 = {"strings": [], "vectors": [], "emotives": {}, "metadata": {}}
+gdf2 = {"strings": [], "vectors": [], "emotives": {}, "metadata": {}, "invalid": True}
+gdf3 = {"strings": ["hello"], "vectors": [], "emotives": {}, "metadata": {}}
+gdf4 = {"strings": ["hello"], "vectors": [[1, 2, 3, 4]], "emotives": {}, "metadata": {}}
+gdf5 = {"strings": "hello", "vectors": [], "emotives": {}, "metadata": {}}
+gdf6 = {"strings": ["hello"], "vectors": [1, 2, 3, 4], "emotives": {}, "metadata": {}}
+gdf7 = {"strings": ["hello"], "vectors": [[1, 2, 3, 4]], "emotives": {"utility": "high"}, "metadata": {}}
+gdf8 = {"strings": ["hello"], "vectors": [[1, 2, 3, 4]], "emotives": {"utility": 23.7}, "metadata": {}}
+'''
+
+doctest_test_doctest_blocks = 'default'
 
 templates_path = ['_templates']
 exclude_patterns = []

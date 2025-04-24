@@ -1,3 +1,10 @@
-sphinx==8.2.3
-sphinx-rtd-theme==3.0.2
-myst-parser==2.0.0
+# Documentation build requirements
+sphinx>=7.2.0
+sphinx-rtd-theme>=2.0.0
+myst-parser>=2.0.0    # For Markdown support
+sphinx-copybutton>=0.5.0    # Add copy buttons to code blocks
+sphinx-design>=0.5.0  # Enhanced UI components
+pygments>=2.16.0      # Syntax highlighting
+sphinx-autobuild>=2021.3.14  # Live preview during development
+docutils>=0.20.0      # Required for reStructuredText processing
+

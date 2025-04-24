@@ -1,5 +1,5 @@
 API Reference
-============
+=============
 
 .. meta::
    :description: Complete API reference for the ia-sdk package
@@ -26,7 +26,7 @@ The ia-sdk consists of several core components:
 * **Utilities**: Helper functions for common tasks
 
 Key Concepts
------------
+------------
 
 Understanding these key concepts will help you navigate the API:
 
@@ -36,7 +36,7 @@ Understanding these key concepts will help you navigate the API:
 * **Knowledge Base**: The agent's long-term memory containing learned patterns
 
 Version Compatibility
--------------------
+---------------------
 
 This documentation describes the API for version |version| of the ia-sdk.
 For information on API changes between versions, please refer to the changelog.

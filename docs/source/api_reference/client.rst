@@ -1,5 +1,5 @@
 Agent Client
-===========
+============
 
 .. meta::
    :description: API reference for the Agent Client module
@@ -20,7 +20,7 @@ AgentClient
    .. automethod:: __init__
 
 Exception Classes
-----------------
+-----------------
 
 .. autoclass:: AgentQueryError
    :members:
@@ -32,7 +32,7 @@ Exception Classes
    :members:
 
 Usage Examples
--------------
+--------------
 
 Connecting to an agent:
 

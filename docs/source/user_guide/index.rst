@@ -1,5 +1,5 @@
 User Guide
-=========
+==========
 
 .. meta::
    :description: Comprehensive user guide for working with the ia-sdk
@@ -8,7 +8,7 @@ User Guide
 Welcome to the ia-sdk User Guide. This guide provides comprehensive information on how to use the ia-sdk effectively for your projects.
 
 Introduction
------------
+------------
 
 The ia-sdk provides a powerful interface for working with GAIuS agents. With this SDK, you can:
 
@@ -20,7 +20,7 @@ The ia-sdk provides a powerful interface for working with GAIuS agents. With thi
 * Integrate GAIuS capabilities into your applications
 
 Who This Guide Is For
--------------------
+---------------------
 
 This guide is designed for:
 
@@ -29,7 +29,7 @@ This guide is designed for:
 * Researchers exploring cognitive computing applications
 
 Navigating the Guide
-------------------
+--------------------
 
 This guide is organized into several sections:
 
@@ -41,7 +41,7 @@ This guide is organized into several sections:
    advanced_usage
 
 Additional Resources
-------------------
+--------------------
 
 For more information, see:
 

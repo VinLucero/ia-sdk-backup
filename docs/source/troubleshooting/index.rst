@@ -1,5 +1,5 @@
 Troubleshooting
-=============
+===============
 
 .. meta::
    :description: Troubleshooting guide for common issues with the ia-sdk package
@@ -8,7 +8,7 @@ Troubleshooting
 Welcome to the ia-sdk troubleshooting guide. This section will help you diagnose and resolve common issues that you might encounter when using the ia-sdk.
 
 Getting Help
------------
+------------
 
 If you encounter problems using the ia-sdk, there are several resources available:
 
@@ -18,7 +18,7 @@ If you encounter problems using the ia-sdk, there are several resources availabl
 4. **Support Email**: Contact support at support@intelligent-artifacts.com
 
 Before Seeking Help
------------------
+-------------------
 
 When reporting an issue, it's helpful to include:
 
@@ -30,7 +30,7 @@ When reporting an issue, it's helpful to include:
 6. Steps you've already taken to try to resolve the issue
 
 Troubleshooting Sections
-----------------------
+------------------------
 
 .. toctree::
    :maxdepth: 1
@@ -39,7 +39,7 @@ Troubleshooting Sections
    faq
 
 Diagnostic Tools
---------------
+----------------
 
 The ia-sdk includes built-in diagnostic tools to help identify issues:
 
@@ -76,7 +76,7 @@ The ia-sdk includes built-in diagnostic tools to help identify issues:
         print(f"Failed to get status: {e}")
 
 Enabling Debug Logging
--------------------
+----------------------
 
 For more detailed diagnostics, enable debug logging:
 

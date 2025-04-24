@@ -1,5 +1,5 @@
 Installation Guide
-================
+==================
 
 .. meta::
    :description: Installation instructions for the ia-sdk package
@@ -8,7 +8,7 @@ Installation Guide
 This guide provides instructions for installing the ia-sdk package and getting started with GAIuS development.
 
 Quick Install
------------
+-------------
 
 For most users, the simplest way to install the ia-sdk is via pip:
 
@@ -19,7 +19,7 @@ For most users, the simplest way to install the ia-sdk is via pip:
 This will install the latest stable version of the package and its dependencies.
 
 Installation Options
------------------
+--------------------
 
 .. toctree::
    :maxdepth: 1
@@ -28,7 +28,7 @@ Installation Options
    platform_specific
 
 Development Installation
----------------------
+------------------------
 
 If you want to contribute to the ia-sdk or use the latest development version, you can install from source:
 
@@ -41,7 +41,7 @@ If you want to contribute to the ia-sdk or use the latest development version, y
 This creates an editable installation that reflects changes you make to the code.
 
 Verifying Installation
--------------------
+----------------------
 
 You can verify that the package is installed correctly by running:
 
@@ -51,7 +51,7 @@ You can verify that the package is installed correctly by running:
     print(ia.gaius.__version__)
 
 Docker Installation
-----------------
+-------------------
 
 The ia-sdk is also available as a Docker image, which includes all dependencies and tools:
 
@@ -64,7 +64,7 @@ The ia-sdk is also available as a Docker image, which includes all dependencies 
     docker run -it intelligentartifacts/ia-sdk:latest
 
 Offline Installation
------------------
+--------------------
 
 For environments without internet access, the ia-sdk can be installed offline:
 
@@ -83,7 +83,7 @@ For environments without internet access, the ia-sdk can be installed offline:
        pip install --no-index --find-links=./ia-sdk-packages ia-sdk
 
 Next Steps
----------
+----------
 
 Once installed, you can:
 

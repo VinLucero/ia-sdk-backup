@@ -1,5 +1,5 @@
 Frequently Asked Questions
-========================
+==========================
 
 .. meta::
    :description: Frequently asked questions about the ia-sdk package
@@ -8,7 +8,7 @@ Frequently Asked Questions
 This page answers frequently asked questions about using the ia-sdk.
 
 General Questions
---------------
+-----------------
 
 **What is the ia-sdk?**
 
@@ -34,7 +34,7 @@ The ia-sdk client library is open source and available on GitHub. GAIuS agents t
 Yes, the ia-sdk is designed for production use. It includes features for robust error handling, performance optimization, and scalability. See the :doc:`/user_guide/best_practices` section for production deployment recommendations.
 
 Installation Questions
-------------------
+----------------------
 
 **Which Python versions are supported?**
 
@@ -65,7 +65,7 @@ For offline installation instructions, see the "Offline Installation" section in
 See the :doc:`/installation/requirements` page for detailed information on minimal system requirements.
 
 Usage Questions
------------
+---------------
 
 **How do I connect to an agent?**
 
@@ -154,7 +154,7 @@ For supervised learning:
     predictions = agent.get_predictions()
 
 Performance Questions
-------------------
+---------------------
 
 **What are the critical paths that need testing?**
 
@@ -204,7 +204,7 @@ For performance testing guidance, see :doc:`/user_guide/best_practices`.
        # Re-enable predictions when needed
        agent.start_predicting()
 
-For more performance tips, see :doc:`/user_guide/advanced_usage`.
+For more concrete examples, see our :doc:`/user_guide/practical-examples`.
 
 **Which platforms should we prioritize for testing?**
 
@@ -217,7 +217,7 @@ Testing priority generally follows this order:
 See :doc:`/installation/platform_specific` for platform-specific considerations.
 
 Error Handling Questions
---------------------
+------------------------
 
 **How do I handle connection errors?**
 
@@ -256,7 +256,7 @@ When updating the ia-sdk:
 See :doc:`/troubleshooting/common_issues` for solutions to these common problems.
 
 Best Practices Questions
----------------------
+------------------------
 
 **What are the most common use cases to document?**
 
@@ -268,7 +268,7 @@ The most common use cases for the ia-sdk include:
 4. **Knowledge representation**: Building and querying semantic networks
 5. **Multi-agent systems**: Creating agent networks for complex reasoning
 
-Examples for these use cases can be found in the :doc:`/getting-started/practical-examples` section.
+Examples for these use cases can be found in the :doc:`/user_guide/practical-examples` section.
 
 **What are the security considerations for the agent connections?**
 

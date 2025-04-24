@@ -90,20 +90,46 @@ Additional Dependencies:
 
 ## Installation Instructions
 
-### Method 1: Using the Installation Script
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/VinLucero/ia-sdk-backup.git
-   cd ia-sdk-backup
-   ```
-
-2. Run the test installation script:
-   ```bash
-   ./scripts/comprehensive_test.sh
-   ```
-
 ### Method 2: Manual Installation
+
+1. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scriptsctivate
+   ```
+
+2. Install from the backup:
+   ```bash
+   pip install --no-index --find-links packages pandas networkx plotly deap ia-sdk
+   ```
+
+## Documentation
+
+The documentation has been significantly improved and is now available in the `docs/` directory:
+
+### ✓ Completed Documentation Components
+- Full API Reference with all classes, methods, and types
+- Platform-specific installation guides (Linux, macOS, Windows)
+- Container-based deployment instructions
+- Complete configuration reference
+- Comprehensive user guides
+- Troubleshooting guide and FAQ
+- Security best practices
+- Performance optimization guide
+- Advanced usage examples
+
+### Building the Documentation
+```bash
+cd docs
+pip install -r requirements.txt
+make html
+```
+
+The built documentation will be available in `docs/build/html/`.
+
+For development purposes, use `make clean html` to rebuild from scratch.
+
+## Platform Compatibility
 
 1. Create and activate a virtual environment:
    ```bash
@@ -172,10 +198,52 @@ To update this backup:
 4. Run the gap analysis
 5. Update documentation as needed
 
-## Troubleshooting
+        ## Troubleshooting
 
-If you encounter platform compatibility issues:
-1. Keep all platform-independent wheels
-2. Download platform-specific wheels for your system
-3. Update checksums.txt accordingly
-4. Run the test suite to verify basic functionality
+        If you encounter platform compatibility issues:
+        1. Keep all platform-independent wheels
+        2. Download platform-specific wheels for your system
+        3. Update checksums.txt accordingly
+        4. Run the test suite to verify basic functionality
+
+        ## Documentation
+
+        The documentation has been significantly improved and is now available in the `docs/` directory, including:
+
+        ### ✓ Completed Documentation
+        - Full API Reference
+          - AgentClient class and methods
+          - Data structures and models
+          - Utility functions
+        - Installation Guides
+          - Platform-specific instructions (Linux, macOS, Windows)
+          - Container-based deployment
+          - Virtual environment setup
+        - Configuration Reference
+          - All configuration options
+          - Environment variables
+          - Best practices
+        - User Guides
+          - Quickstart guide
+          - Advanced usage
+          - Best practices
+        - Troubleshooting
+          - Common issues
+          - FAQ
+          - Platform-specific troubleshooting
+        - Security Guide
+          - API key management
+          - Secure deployment
+          - Best practices
+
+        ### Building Documentation
+        To build the documentation:
+        ```bash
+        cd docs
+        pip install -r requirements.txt
+        make html
+        ```
+
+        The built documentation will be available in `docs/build/html/`.
+
+        For development purposes, you can use `make clean html` to rebuild from scratch.

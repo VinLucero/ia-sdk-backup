@@ -227,3 +227,110 @@ def test_node_operations(connected_client):
         assert 'name' in node
         assert node['name'] == 'P1'
         assert node['id'] == 'pid1'
+
+def test_query_execution_with_parameters(connected_client):
+    """Test query execution with different parameters."""
+    # Test query with data parameter
+    data = {'strings': ['test'], 'vectors': [], 'emotives': {}}
+    result = connected_client._query(connected_client.session.post, 'observe', data=data, nodes=['P1'])
+    assert result['status'] == 'okay'
+    
+    # Test query with unique_id
+    unique_id = 'test-id-123'
+    result, returned_id = connected_client._query(connected_client.session.post, 'observe', 
+                                                 data=data, nodes=['P1'], unique_id=unique_id)
+    assert result['status'] == 'okay'
+    assert returned_id == unique_id
+
+    # Test query with multiple nodes
+    connected_client.set_summarize_for_single_node(False)
+    result = connected_client._query(connected_client.session.get, 'status', nodes=['P1', 'P1'])
+    assert 'P1' in result
+    assert result['P1']['status'] == 'okay'
+
+def test_query_timeout_handling(mock_session):
+    """Test query timeout handling."""
+    # Create client with timeout
+    with patch('requests.Session', return_value=mock_session):
+        client = AgentClient({
+            'api_key': 'test-key',
+            'name': 'test-agent',
+            'domain': 'test.com',
+            'secure': False
+        }, timeout=5.0)
+        
+        # Verify timeout was set
+        assert client._timeout == 5.0
+        
+        # Test changing timeout
+        client.set_timeout(10.0)
+        
+        # Since we're mocking, we can't really test the timeout behavior directly,
+        # but we can verify the method works
+        with patch('ia.gaius.genome_info.Genome', return_value=MockGenome()):
+            client.connect()
+            assert client._connected is True
+
+def test_query_with_invalid_nodes(connected_client):
+    """Test query with invalid node configurations."""
+    # Test with empty node list
+    with pytest.raises(Exception):  # Should raise some kind of exception
+        connected_client._query(connected_client.session.get, 'status', nodes=[])
+    
+    # Test with non-existing node
+    mock_response = MagicMock()
+    mock_response.json.return_value = {'status': 'failed', 'message': 'Node not found'}
+    
+    with patch.object(connected_client.session, 'get', return_value=mock_response):
+        with pytest.raises(AgentQueryError):
+            connected_client._query(connected_client.session.get, 'status', nodes=['NonExistentNode'])
+
+def test_query_response_processing(connected_client):
+    """Test query response processing."""
+    # Test response processing with send_unique_ids=True
+    connected_client.send_unique_ids = True
+    unique_id = 'test-unique-id'
+    
+    # Mock response with unique_id
+    mock_response = MagicMock()
+    mock_response.json.return_value = {
+        'status': 'okay', 
+        'message': {'data': 'test_data', 'unique_id': unique_id}
+    }
+    
+    with patch.object(connected_client.session, 'get', return_value=mock_response):
+        result, returned_id = connected_client._query(
+            connected_client.session.get, 'test', nodes=['P1'], unique_id=unique_id
+        )
+        assert 'unique_id' in result
+        assert result['unique_id'] == unique_id
+        assert returned_id == unique_id
+    
+    # Test response processing with send_unique_ids=False
+    connected_client.send_unique_ids = False
+    
+    with patch.object(connected_client.session, 'get', return_value=mock_response):
+        result, returned_id = connected_client._query(
+            connected_client.session.get, 'test', nodes=['P1'], unique_id=unique_id
+        )
+        # unique_id should be removed from the response
+        assert 'unique_id' not in result
+        assert returned_id == unique_id
+    
+    # Test summarize_for_single_node behavior
+    connected_client.send_unique_ids = True
+    connected_client.summarize_for_single_node = True
+    
+    with patch.object(connected_client.session, 'get', return_value=mock_response):
+        result = connected_client._query(connected_client.session.get, 'test', nodes=['P1'])
+        # Result should be directly from the message, not wrapped in a dict
+        assert result == {'data': 'test_data', 'unique_id': unique_id}
+    
+    # Test multiple nodes (should not summarize)
+    connected_client.summarize_for_single_node = True
+    
+    with patch.object(connected_client.session, 'get', return_value=mock_response):
+        result = connected_client._query(connected_client.session.get, 'test', nodes=['P1', 'P1'])
+        # Result should be a dict with node names as keys
+        assert 'P1' in result
+        assert result['P1'] == {'data': 'test_data', 'unique_id': unique_id}

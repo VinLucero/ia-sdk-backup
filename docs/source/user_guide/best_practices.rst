@@ -1,5 +1,5 @@
 Best Practices
-=============
+==============
 
 .. meta::
    :description: Best practices for using the ia-sdk effectively
@@ -8,7 +8,7 @@ Best Practices
 This page provides best practices and recommendations for using the ia-sdk effectively.
 
 Data Preparation
---------------
+----------------
 
 **Use Appropriate Data Formats**
 
@@ -35,7 +35,7 @@ Data Preparation
 * Keep sequences consistent in format and length
 
 Learning and Training
-------------------
+---------------------
 
 **Effective Model Building**
 
@@ -68,7 +68,7 @@ Learning and Training
 * Use higher thresholds (0.3-0.5) for precision
 
 Memory Management
----------------
+-----------------
 
 **Efficient Resource Usage**
 
@@ -79,7 +79,7 @@ Memory Management
 * Periodically check memory usage with `show_status()`
 
 Error Handling
-------------
+--------------
 
 **Robust Implementation**
 
@@ -104,7 +104,7 @@ Error Handling
         agent.clear_wm()
 
 Testing and Validation
---------------------
+----------------------
 
 **Validating Agent Behavior**
 

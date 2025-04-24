@@ -1,5 +1,5 @@
 System Requirements
-=================
+===================
 
 .. meta::
    :description: System requirements and dependencies for the ia-sdk package
@@ -8,14 +8,14 @@ System Requirements
 This page outlines the system requirements and dependencies for using the ia-sdk.
 
 Python Version
-------------
+--------------
 
 The ia-sdk requires:
 
 * Python 3.8 or higher
 
 Operating Systems
----------------
+-----------------
 
 The ia-sdk is compatible with:
 
@@ -24,7 +24,7 @@ The ia-sdk is compatible with:
 * **Windows**: Windows 10 or higher
 
 Hardware Requirements
-------------------
+---------------------
 
 Minimum specifications:
 
@@ -39,12 +39,12 @@ For production use or large datasets:
 * **Disk Space**: 10GB+ for knowledge base storage
 
 Dependencies
-----------
+------------
 
 The following Python packages are required and automatically installed with the ia-sdk:
 
 Core Dependencies:
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 * **requests**: HTTP library for API communication
 * **numpy**: Numerical computing
@@ -56,7 +56,7 @@ Core Dependencies:
 * **click**: Command-line interfaces
 
 Optional Dependencies:
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 * **matplotlib**: Visualization capabilities
 * **plotly**: Interactive visualizations
@@ -66,7 +66,7 @@ Optional Dependencies:
 * **docker**: For container-based agent management
 
 Development Dependencies:
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 These are only needed if you are contributing to the ia-sdk development:
 
@@ -78,7 +78,7 @@ These are only needed if you are contributing to the ia-sdk development:
 * **mypy**: Type checking
 
 Installing Dependencies
----------------------
+-----------------------
 
 All required dependencies are automatically installed when you install the ia-sdk with pip:
 
@@ -90,5 +90,5 @@ To install optional dependencies, use:
 
 .. code-block:: bash
 
-    pip install
+    pip install ia-sdk[all]
 

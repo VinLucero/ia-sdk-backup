@@ -1,5 +1,5 @@
 Common Issues
-===========
+=============
 
 .. meta::
    :description: Solutions for common issues with the ia-sdk package
@@ -8,7 +8,7 @@ Common Issues
 This page addresses common issues you might encounter when using the ia-sdk and provides solutions.
 
 Connection Issues
---------------
+-----------------
 
 **Issue: Unable to Connect to Agent**
 
@@ -65,7 +65,7 @@ Connection Issues
        os.environ['HTTPS_PROXY'] = 'http://proxy.example.com:8080'
 
 Data Processing Issues
--------------------
+----------------------
 
 **Issue: Observations Not Being Processed**
 
@@ -147,7 +147,7 @@ Data Processing Issues
        agent.change_genes({"recall_threshold": 0.1})
 
 Memory Management Issues
----------------------
+------------------------
 
 **Issue: Out of Memory Errors**
 
@@ -192,7 +192,7 @@ Memory Management Issues
        agent.delete_model("MODEL|abcdef1234")
 
 Installation Issues
-----------------
+-------------------
 
 **Issue: Package Installation Fails**
 
