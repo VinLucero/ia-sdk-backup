@@ -44,3 +44,12 @@ docs/_build/
 .env
 .envrc
 
+
+# Documentation
+docs_env/
+docs/build/
+.DS_Store
+.env
+*.pyc
+__pycache__/
+
