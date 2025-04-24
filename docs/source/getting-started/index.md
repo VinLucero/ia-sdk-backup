@@ -1,48 +1,69 @@
-# Getting Started with ia-sdk
+# ia-sdk Documentation
 
 ## Learning Paths
 
-### New Users
+### 🚀 New Users
+1. Start with [Quick Start Guide](quickstart.md)
+   - Basic installation
+   - First connection
+   - Simple operations
 
-Start here if you're new to ia-sdk:
+2. Try the Basic Examples from [Practical Examples](practical-examples.md)
+   - Basic Operations Pattern
+   - Simple queries
+   - Error handling
 
-1. [Installation and Basic Usage](quickstart.md)
-2. [Common Patterns](practical-examples.md#basic-operations-pattern)
-3. [Error Handling](technical-deep-dive.md#error-handling)
+3. Explore [Common Pitfalls](quickstart.md#common-pitfalls)
+   - Connection issues
+   - Node configuration
+   - Query operations
 
-### Intermediate Users
+### 👨‍💻 Intermediate Users
+1. Study the [Technical Deep Dive](technical-deep-dive.md)
+   - Component structure
+   - State management
+   - Error handling patterns
 
-For users familiar with the basics:
+2. Implement [Resilient Patterns](practical-examples.md#resilient-pattern)
+   - Retry logic
+   - State management
+   - Error recovery
 
-1. [Technical Details](technical-deep-dive.md#component-structure)
-2. [Advanced Patterns](practical-examples.md#resilient-pattern)
-3. [Performance Tips](technical-deep-dive.md#performance-considerations)
+3. Explore [Advanced Usage](technical-deep-dive.md#advanced-usage-patterns)
+   - Custom configurations
+   - Performance optimization
+   - Resource management
 
-### System Architects
+### 🏗️ System Architects
+1. Review [Architecture Overview](technical-deep-dive.md#architecture-overview)
+   - Component structure
+   - Integration points
+   - Security considerations
 
-For system-level integration:
+2. Implement [Integration Examples](practical-examples.md#integration-example)
+   - System monitoring
+   - Data pipelines
+   - Health checks
 
-1. [Architecture](technical-deep-dive.md#architecture-overview)
-2. [Integration](practical-examples.md#integration-example)
-3. [Performance](technical-deep-dive.md#performance-considerations)
+3. Study [Performance Considerations](technical-deep-dive.md#performance-considerations)
+   - Connection management
+   - Query optimization
+   - Resource handling
 
-## Quick Reference
+## Common Use Cases
 
 ### Basic Operations
-
 ```python
 from ia.gaius.agent_client import AgentClient
 
-# Initialize
+# Initialize and connect
 agent_info = {
     'api_key': 'your-api-key',
-    'name': 'your-agent',
+    'name': 'basic-agent',
     'domain': 'your-domain',
     'secure': True
 }
 client = AgentClient(agent_info)
-
-# Connect
 client.connect()
 
 # Configure nodes
@@ -53,60 +74,89 @@ client.set_query_nodes(['P1'])
 result = client._query(client.session.get, '/test', nodes=['P1'])
 ```
 
-### Common Patterns
+### Production Setup
+```python
+from practical_examples import ResilientAgent, AgentMonitor
 
-* [Connection Management](technical-deep-dive.md#connection-flow)
-* [Node Operations](technical-deep-dive.md#node-operations)
-* [Query System](technical-deep-dive.md#query-system)
-* [Error Handling](technical-deep-dive.md#error-handling)
+# Initialize components
+agent = ResilientAgent(API_KEY, DOMAIN)
+monitor = AgentMonitor(API_KEY, DOMAIN)
 
-### Best Practices
+# Check system health
+health_status = monitor.run_health_check()
+if health_status['connection']['status'] == 'healthy':
+    # Execute operations
+    result = agent.execute_query('/process')
+```
 
-1. Error Handling
-   ```python
-   try:
-       client.connect()
-   except AgentConnectionError as e:
-       print(f"Connection failed: {e}")
-   ```
+### Data Pipeline
+```python
+from practical_examples import DataPipeline
 
-2. State Management
-   ```python
-   if not client._connected:
-       client.connect()
-   ```
+# Setup pipeline
+pipeline = DataPipeline(API_KEY, DOMAIN)
+pipeline.add_step('/preprocess')
+pipeline.add_step('/analyze')
+pipeline.add_step('/summarize')
 
-3. Resource Cleanup
-   ```python
-   try:
-       result = client._query(method, path)
-   finally:
-       # Clean up resources
-       pass
-   ```
+# Process data
+results = pipeline.process(initial_data)
+```
 
-## Documentation Map
+## Core Concepts Quick Reference
 
-### Core Concepts
-- [Basic Usage](quickstart.md)
-- [Technical Details](technical-deep-dive.md)
-- [Practical Examples](practical-examples.md)
+### Connection Management
+- [Basic Connection](quickstart.md#2-connect-to-agent)
+- [Connection Flow](technical-deep-dive.md#connection-flow)
+- [Resilient Connection](practical-examples.md#resilient-pattern)
 
-### Common Tasks
-- [Installation](quickstart.md#installation)
-- [Configuration](technical-deep-dive.md#configuration)
-- [Querying](practical-examples.md#query-operations)
+### Node Operations
+- [Basic Node Setup](quickstart.md#3-configure-nodes)
+- [Node Structure](technical-deep-dive.md#node-operations)
+- [Node Management](practical-examples.md#state-management-pattern)
 
-### Advanced Topics
-- [Performance](technical-deep-dive.md#performance-considerations)
-- [Security](technical-deep-dive.md#security-considerations)
-- [Testing](technical-deep-dive.md#testing-strategies)
+### Query Operations
+- [Simple Queries](quickstart.md#4-basic-operations)
+- [Query System](technical-deep-dive.md#3-query-system)
+- [Batch Operations](practical-examples.md#batch-operations-pattern)
 
-## Support
+### Error Handling
+- [Basic Error Handling](quickstart.md#error-handling)
+- [Advanced Error Recovery](technical-deep-dive.md#1-error-recovery)
+- [Resilient Patterns](practical-examples.md#resilient-pattern)
 
-If you need help:
+## Best Practices Summary
 
-1. Check the [Troubleshooting Guide](technical-deep-dive.md#troubleshooting-guide)
-2. Review [Common Issues](technical-deep-dive.md#common-issues)
-3. See [Error Handling Examples](practical-examples.md#error-handling)
+### Development
+1. Always implement proper error handling
+2. Use retry mechanisms for resilience
+3. Validate all inputs
+4. Maintain connection state
+5. Clean up resources properly
+
+### Production
+1. Monitor system health
+2. Implement proper logging
+3. Use batch operations where appropriate
+4. Handle failures gracefully
+5. Regular health checks
+
+### Integration
+1. Use resilient patterns
+2. Implement proper state management
+3. Monitor performance
+4. Handle timeouts appropriately
+5. Validate responses
+
+## Getting Help
+
+### Common Issues
+- [Connection Problems](quickstart.md#common-pitfalls)
+- [Node Issues](technical-deep-dive.md#common-issues)
+- [Query Failures](practical-examples.md#error-handling)
+
+### Resources
+- [GitHub Repository](https://github.com/VinLucero/ia-sdk-backup)
+- [API Reference](technical-deep-dive.md)
+- [Example Code](practical-examples.md)
 
